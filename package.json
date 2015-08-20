@@ -1,0 +1,39 @@
+{
+  "name": "react-drag-select",
+  "version": "1.0.0",
+  "description": "A React drag to select component",
+  "main": "index.js",
+  "scripts": {
+    "build-demo": "browserify ./sample/sample.jsx -o ./sample/sample.js"
+  },
+  "browserify": {
+    "transform": [
+      ["reactify"]
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pablofierro/react-drag-select.git"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "drag",
+    "select",
+    "ui"
+  ],
+  "author": "pablofierro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pablofierro/react-drag-select/issues"
+  },
+  "homepage": "https://github.com/pablofierro/react-drag-select",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "reactify": "^1.1.1"
+  }
+}
