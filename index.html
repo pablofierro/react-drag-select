@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Drag Select</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <style>
+
+      /* item box */
+      .select-box {
+        background: #f0f0f0;
+        width: 96px;
+        height: 100px;
+        text-align: center;
+        line-height: 104px;
+        display: inline-block;
+        margin: 5px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #5A5A5A;
+        box-sizing: border-box;
+      }
+
+      /* selected item box */
+      .select-box.selected {
+        background: #64B5F6;
+        color: white;
+      }
+
+      /* selection container */
+      .selection {
+        position: relative;
+      }
+
+      /* selection box */
+      .selection-border {
+        background: rgba(0, 162, 255, 0.4);
+        position: absolute;
+        z-index: 99;
+      }
+
+    </style>
+
+  </head>
+  <body>
+  <div class="container">
+
+    <!--Info-->
+    <div class="header">
+      <h1>
+        React Drag to Select Component
+        <iframe src="https://ghbtns.com/github-btn.html?user=pablofierro&repo=react-drag-select&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+      </h1>
+      <p>
+        Provides group and individual item selection using mouse drag or shift/ctrl + click to select individual items.
+      </p>
+      <a href="https://github.com/pablofierro/react-drag-select">View on Github.com</a>
+      <h2>Example</h2>
+      <p class="info">Use Ctrl/Shift + click to select individual items and mouse drag to select groups, use shift and drag to append items to the selection.</p>
+    </div>
+  
+    <!--Container-->      
+    <div id="example"></div>
+
+    <!--Options-->
+    <h2>Options</h2>
+    <b>enabled(boolean) <span>- Default: true</span></b>
+    <p>Enables or disables drag select behaviour on the component.</p>
+    <b>onSelectionChange(function) <span>- Default: noop</span></b>
+    <p>Called when the selected item change, receieves item keys as argument.</p>
+
+    <!--Public methods-->
+    <h2>Public Methods</h2>
+    <b>selectItem(key, status)</b>
+    <p>Manually sets an items selection status by its id.</p>
+    <b>clearSelection()</b>
+    <p>Clears all selected items.</p>
+    <b>selectAll()</b>
+    <p>Select all elements in the list.</p>
+
+    <div class="footer">
+      Made by <a href="https://github.com/pablofierro">@pablofierro</a>.
+    </div>
+
+    </div>
+
+    <!--Build-->
+    <script src="sample.js"></script>
+
+  </body>
+</html>
