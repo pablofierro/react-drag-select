@@ -1,4 +1,5 @@
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 var Selection = require('./../lib/Selection');
 
 /**
@@ -26,7 +27,7 @@ for(var i = 0; i < 65; i++) {
   );
 }
 
-React.render(
+ReactDOM.render(
   <Selection>
     {data}
   </Selection>,

@@ -8,7 +8,9 @@
   },
   "browserify": {
     "transform": [
-      ["reactify"]
+      [
+        "reactify"
+      ]
     ]
   },
   "repository": {
@@ -30,7 +32,8 @@
   "homepage": "https://github.com/pablofierro/react-drag-select",
   "dependencies": {
     "lodash": "^3.10.1",
-    "react": "^0.13.3"
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
   },
   "devDependencies": {
     "browserify": "^11.0.1",
