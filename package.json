@@ -4,7 +4,8 @@
   "description": "A React drag to select component",
   "main": "index.js",
   "scripts": {
-    "build-demo": "browserify ./sample/sample.jsx -o ./sample/sample.js"
+    "build-demo": "browserify ./sample/sample.jsx -o ./sample/sample.js",
+    "build": "babel --plugins transform-react-jsx ./src/Selection.js -o ./lib/Selection.js"
   },
   "browserify": {
     "transform": [
@@ -36,6 +37,8 @@
     "react-dom": "^15.4.2"
   },
   "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-plugin-transform-react-jsx": "^6.22.0",
     "browserify": "^11.0.1",
     "reactify": "^1.1.1"
   }
