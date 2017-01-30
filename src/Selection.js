@@ -66,17 +66,21 @@ var Selection = React.createClass({
    * On root element mouse down
    */
   _onMouseDown: function(e) {
-    if(!this.props.enabled || e.button === 2 || e.nativeEvent.which === 2) {
+    if (!this.props.enabled || e.button === 2 || e.nativeEvent.which === 2) {
       return;
     }
     var nextState = {};
-    if(e.ctrlKey || e.altKey || e.shiftKey) {
+    if (e.ctrlKey || e.altKey || e.shiftKey) {
       nextState.appendMode = true;
     }
     nextState.mouseDown = true;
+
+    var parentNode = ReactDOM.findDOMNode(this.refs.selectionBox)
+    var scrollY = Math.abs(parentNode.getClientRects()[0].top - this.cumulativeOffset(parentNode).top)
+    var scrollX = Math.abs(parentNode.getClientRects()[0].left - this.cumulativeOffset(parentNode).left)
     nextState.startPoint = {
-      x: e.pageX,
-      y: e.pageY
+      x: e.pageX - this.cumulativeOffset(parentNode).left + scrollX,
+      y: e.pageY - this.cumulativeOffset(parentNode).top + scrollY
     };
     this.setState(nextState);
     window.document.addEventListener('mousemove', this._onMouseMove);
@@ -104,10 +108,13 @@ var Selection = React.createClass({
    */
   _onMouseMove: function(e) {
     e.preventDefault();
-    if(this.state.mouseDown) {
+    if (this.state.mouseDown) {
+      var parentNode = ReactDOM.findDOMNode(this.refs.selectionBox)
+      var scrollY = Math.abs(parentNode.getClientRects()[0].top - this.cumulativeOffset(parentNode).top)
+      var scrollX = Math.abs(parentNode.getClientRects()[0].left - this.cumulativeOffset(parentNode).left)
       var endPoint = {
-        x: e.pageX,
-        y: e.pageY
+        x: e.pageX - this.cumulativeOffset(parentNode).left + scrollX,
+        y: e.pageY - this.cumulativeOffset(parentNode).top + scrollY
       };
       this.setState({
         endPoint: endPoint,
@@ -264,6 +271,20 @@ var Selection = React.createClass({
       top: top,
       width: width,
       height: height
+    };
+  },
+
+  cumulativeOffset: function(element) {
+    var top = 0, left = 0;
+    do {
+        top += element.offsetTop  || 0;
+        left += element.offsetLeft || 0;
+        element = element.offsetParent;
+    } while(element);
+
+    return {
+        top: top,
+        left: left
     };
   }
 
