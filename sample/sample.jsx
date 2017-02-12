@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Selection = require('./../lib/Selection');
+var Selection = require('./../src/Selection');
 
 /**
  * Inner selection item
@@ -27,9 +27,25 @@ for(var i = 0; i < 65; i++) {
   );
 }
 
+class Sample extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      selectedList: []
+    }
+  }
+
+  render() {
+    return (
+      <Selection selectedList={this.state.selectedList} onSelectionChange={(list)=> this.setState({selectedList: list})}>
+        {data}
+      </Selection>
+    )
+  }
+}
+
 ReactDOM.render(
-  <Selection>
-    {data}
-  </Selection>,
+  <Sample />,
   document.getElementById('example')
 );

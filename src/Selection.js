@@ -1,4 +1,4 @@
- 'use strict';
+'use strict';
 
 var _ = require('lodash');
 var React = require('react');
@@ -18,6 +18,7 @@ var Selection = React.createClass({
     return {
       enabled: true,
       onSelectionChange: _.noop,
+      selectedList: []
     };
   },
 
@@ -51,6 +52,13 @@ var Selection = React.createClass({
       nextState.selectedItems = {};
     }
     this.setState(nextState);
+
+    if (_.isArray(nextProps.selectedList)) {
+      this.selectedChildren = {}
+      nextProps.selectedList.map((item)=> {
+        this.selectedChildren[item] = true
+      })
+    }
   },
 
   /**
