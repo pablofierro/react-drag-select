@@ -160,6 +160,7 @@ var Selection = React.createClass({
         isSelected: isSelected
       });
       return React.DOM.div({
+        style: _this.props.itemStyle,
         className: 'select-box ' + (isSelected ? 'selected' : ''),
         onClickCapture: function(e) {
           if((e.ctrlKey || e.altKey || e.shiftKey) && _this.props.enabled) {
