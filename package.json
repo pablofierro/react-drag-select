@@ -4,11 +4,14 @@
   "description": "A React drag to select component",
   "main": "index.js",
   "scripts": {
-    "build-demo": "browserify ./sample/sample.jsx -o ./sample/sample.js"
+    "build-demo": "browserify ./sample/sample.jsx -o ./sample/sample.js",
+    "build": "babel ./src/Selection.js -o ./lib/Selection.js"
   },
   "browserify": {
     "transform": [
-      ["reactify"]
+      [
+        "reactify"
+      ]
     ]
   },
   "repository": {
@@ -29,11 +32,30 @@
   },
   "homepage": "https://github.com/pablofierro/react-drag-select",
   "dependencies": {
-    "lodash": "^3.10.1",
-    "react": "^0.13.3"
+    "lodash": "^3.10.1"
+  },
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0"
   },
   "devDependencies": {
+    "babel-core": "^6.3.26",
+    "babel-eslint": "^6.0.2",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.3.13",
     "browserify": "^11.0.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "reactify": "^1.1.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react",
+      "stage-0"
+    ],
+    "plugins": []
   }
 }

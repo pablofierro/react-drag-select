@@ -5,8 +5,6 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var Selection = React.createClass({
-  displayName: 'Selection',
-
 
   propTypes: {
     enabled: React.PropTypes.bool,
@@ -16,7 +14,7 @@ var Selection = React.createClass({
   /**
    * Component default props
    */
-  getDefaultProps: function getDefaultProps() {
+  getDefaultProps: function() {
     return {
       enabled: true,
       onSelectionChange: _.noop,
@@ -27,7 +25,7 @@ var Selection = React.createClass({
   /**
    * Component initial state
    */
-  getInitialState: function getInitialState() {
+  getInitialState: function() {
     return {
       mouseDown: false,
       startPoint: null,
@@ -41,33 +39,33 @@ var Selection = React.createClass({
   /**
    * On componentn mount
    */
-  componentWillMount: function componentWillMount() {
+  componentWillMount: function() {
     this.selectedChildren = {};
   },
 
   /**
    * On component props change
    */
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    var _this2 = this;
-
+  componentWillReceiveProps: function(nextProps) {
     var nextState = {};
-    if (!nextProps.enabled) {
+    if(!nextProps.enabled) {
       nextState.selectedItems = {};
     }
     this.setState(nextState);
 
-    this.selectedChildren = {};
-    nextProps.selectedList.map(function (item) {
-      _this2.selectedChildren[item] = true;
-    });
+    if (_.isArray(nextProps.selectedList)) {
+      this.selectedChildren = {}
+      nextProps.selectedList.map((item)=> {
+        this.selectedChildren[item] = true
+      })
+    }
   },
 
   /**
    * On component update
    */
-  componentDidUpdate: function componentDidUpdate() {
-    if (this.state.mouseDown && !_.isNull(this.state.selectionBox)) {
+  componentDidUpdate: function() {
+    if(this.state.mouseDown && !_.isNull(this.state.selectionBox)) {
       this._updateCollidingChildren(this.state.selectionBox);
     }
   },
@@ -75,7 +73,7 @@ var Selection = React.createClass({
   /**
    * On root element mouse down
    */
-  _onMouseDown: function _onMouseDown(e) {
+  _onMouseDown: function(e) {
     if (!this.props.enabled || e.button === 2 || e.nativeEvent.which === 2) {
       return;
     }
@@ -85,9 +83,9 @@ var Selection = React.createClass({
     }
     nextState.mouseDown = true;
 
-    var parentNode = ReactDOM.findDOMNode(this.refs.selectionBox);
-    var scrollY = Math.abs(parentNode.getClientRects()[0].top - this.cumulativeOffset(parentNode).top);
-    var scrollX = Math.abs(parentNode.getClientRects()[0].left - this.cumulativeOffset(parentNode).left);
+    var parentNode = ReactDOM.findDOMNode(this.refs.selectionBox)
+    var scrollY = Math.abs(parentNode.getClientRects()[0].top - this.cumulativeOffset(parentNode).top)
+    var scrollX = Math.abs(parentNode.getClientRects()[0].left - this.cumulativeOffset(parentNode).left)
     nextState.startPoint = {
       x: e.clientX - this.cumulativeOffset(parentNode).left + scrollX,
       y: e.clientY - this.cumulativeOffset(parentNode).top + scrollY
@@ -100,7 +98,7 @@ var Selection = React.createClass({
   /**
    * On document element mouse up
    */
-  _onMouseUp: function _onMouseUp(e) {
+  _onMouseUp: function(e) {
     window.document.removeEventListener('mousemove', this._onMouseMove);
     window.document.removeEventListener('mouseup', this._onMouseUp);
     this.setState({
@@ -116,12 +114,12 @@ var Selection = React.createClass({
   /**
    * On document element mouse move
    */
-  _onMouseMove: function _onMouseMove(e) {
+  _onMouseMove: function(e) {
     e.preventDefault();
     if (this.state.mouseDown) {
-      var parentNode = ReactDOM.findDOMNode(this.refs.selectionBox);
-      var scrollY = Math.abs(parentNode.getClientRects()[0].top - this.cumulativeOffset(parentNode).top);
-      var scrollX = Math.abs(parentNode.getClientRects()[0].left - this.cumulativeOffset(parentNode).left);
+      var parentNode = ReactDOM.findDOMNode(this.refs.selectionBox)
+      var scrollY = Math.abs(parentNode.getClientRects()[0].top - this.cumulativeOffset(parentNode).top)
+      var scrollX = Math.abs(parentNode.getClientRects()[0].left - this.cumulativeOffset(parentNode).left)
       var endPoint = {
         x: e.clientX - this.cumulativeOffset(parentNode).left + scrollX,
         y: e.clientY - this.cumulativeOffset(parentNode).top + scrollY
@@ -136,24 +134,24 @@ var Selection = React.createClass({
   /**
    * Render
    */
-  render: function render() {
+  render: function() {
     var className = 'selection ' + (this.state.mouseDown ? 'dragging' : '');
-    return React.createElement(
-      'div',
-      { className: className, ref: 'selectionBox', onMouseDown: this._onMouseDown },
-      this.renderChildren(),
-      this.renderSelectionBox()
+    return(
+      <div className={className} ref='selectionBox' onMouseDown={this._onMouseDown}>
+        {this.renderChildren()}
+        {this.renderSelectionBox()}
+      </div>
     );
   },
 
   /**
    * Render children
    */
-  renderChildren: function renderChildren() {
+  renderChildren: function() {
     var index = 0;
     var _this = this;
     var tmpChild;
-    return React.Children.map(this.props.children, function (child) {
+    return React.Children.map(this.props.children, function(child) {
       var tmpKey = _.isNull(child.key) ? index++ : child.key;
       var isSelected = _.has(_this.selectedChildren, tmpKey);
       tmpChild = React.cloneElement(child, {
@@ -164,8 +162,8 @@ var Selection = React.createClass({
       return React.DOM.div({
         style: _this.props.itemStyle,
         className: 'select-box ' + (isSelected ? 'selected' : ''),
-        onClickCapture: function onClickCapture(e) {
-          if ((e.ctrlKey || e.altKey || e.shiftKey) && _this.props.enabled) {
+        onClickCapture: function(e) {
+          if((e.ctrlKey || e.altKey || e.shiftKey) && _this.props.enabled) {
             e.preventDefault();
             e.stopPropagation();
             _this.selectItem(tmpKey, !_.has(_this.selectedChildren, tmpKey));
@@ -178,11 +176,13 @@ var Selection = React.createClass({
   /**
    * Render selection box
    */
-  renderSelectionBox: function renderSelectionBox() {
-    if (!this.state.mouseDown || _.isNull(this.state.endPoint) || _.isNull(this.state.startPoint)) {
+  renderSelectionBox: function() {
+    if(!this.state.mouseDown || _.isNull(this.state.endPoint) || _.isNull(this.state.startPoint)) {
       return null;
     }
-    return React.createElement('div', { className: 'selection-border', style: this.state.selectionBox });
+    return(
+      <div className='selection-border' style={this.state.selectionBox}></div>
+    );
   },
 
   /**
@@ -190,10 +190,11 @@ var Selection = React.createClass({
    * @param {string} key the item's target key value
    * @param {boolean} isSelected the item's target selection status
    */
-  selectItem: function selectItem(key, isSelected) {
-    if (isSelected) {
+  selectItem: function(key, isSelected) {
+    if(isSelected) {
       this.selectedChildren[key] = isSelected;
-    } else {
+    }
+    else {
       delete this.selectedChildren[key];
     }
     this.props.onSelectionChange.call(null, _.keys(this.selectedChildren));
@@ -203,9 +204,9 @@ var Selection = React.createClass({
   /**
    * Select all items
    */
-  selectAll: function selectAll() {
-    _.each(this.refs, function (ref, key) {
-      if (key !== 'selectionBox') {
+  selectAll: function() {
+    _.each(this.refs, function(ref, key) {
+      if(key !== 'selectionBox') {
         this.selectedChildren[key] = true;
       }
     }.bind(this));
@@ -216,7 +217,7 @@ var Selection = React.createClass({
   /**
    * Manually clear selected items
    */
-  clearSelection: function clearSelection() {
+  clearSelection: function() {
     this.selectedChildren = {};
     this.props.onSelectionChange.call(null, []);
     this.forceUpdate();
@@ -225,8 +226,11 @@ var Selection = React.createClass({
   /**
    * Detect 2D box intersection
    */
-  _boxIntersects: function _boxIntersects(boxA, boxB) {
-    if (boxA.left <= boxB.left + boxB.width && boxA.left + boxA.width >= boxB.left && boxA.top <= boxB.top + boxB.height && boxA.top + boxA.height >= boxB.top) {
+  _boxIntersects: function(boxA, boxB) {
+    if(boxA.left <= boxB.left + boxB.width &&
+      boxA.left + boxA.width >= boxB.left &&
+      boxA.top <= boxB.top + boxB.height &&
+      boxA.top + boxA.height >= boxB.top) {
       return true;
     }
     return false;
@@ -236,12 +240,12 @@ var Selection = React.createClass({
    * Updates the selected items based on the
    * collisions with selectionBox
    */
-  _updateCollidingChildren: function _updateCollidingChildren(selectionBox) {
+  _updateCollidingChildren: function(selectionBox) {
     var tmpNode = null;
     var tmpBox = null;
     var _this = this;
-    _.each(this.refs, function (ref, key) {
-      if (key !== 'selectionBox') {
+    _.each(this.refs, function(ref, key) {
+      if(key !== 'selectionBox') {
         tmpNode = ReactDOM.findDOMNode(ref);
         tmpBox = {
           top: tmpNode.offsetTop,
@@ -249,10 +253,11 @@ var Selection = React.createClass({
           width: tmpNode.clientWidth,
           height: tmpNode.clientHeight
         };
-        if (_this._boxIntersects(selectionBox, tmpBox)) {
+        if(_this._boxIntersects(selectionBox, tmpBox)) {
           _this.selectedChildren[key] = true;
-        } else {
-          if (!_this.state.appendMode) {
+        }
+        else {
+          if(!_this.state.appendMode) {
             delete _this.selectedChildren[key];
           }
         }
@@ -263,8 +268,8 @@ var Selection = React.createClass({
   /**
    * Calculate selection box dimensions
    */
-  _calculateSelectionBox: function _calculateSelectionBox(startPoint, endPoint) {
-    if (!this.state.mouseDown || _.isNull(endPoint) || _.isNull(startPoint)) {
+  _calculateSelectionBox: function(startPoint, endPoint) {
+    if(!this.state.mouseDown || _.isNull(endPoint) || _.isNull(startPoint)) {
       return null;
     }
     var parentNode = ReactDOM.findDOMNode(this.refs.selectionBox);
@@ -280,18 +285,17 @@ var Selection = React.createClass({
     };
   },
 
-  cumulativeOffset: function cumulativeOffset(element) {
-    var top = 0,
-        left = 0;
+  cumulativeOffset: function(element) {
+    var top = 0, left = 0;
     do {
-      top += element.offsetTop || 0;
-      left += element.offsetLeft || 0;
-      element = element.offsetParent;
-    } while (element);
+        top += element.offsetTop  || 0;
+        left += element.offsetLeft || 0;
+        element = element.offsetParent;
+    } while(element);
 
     return {
-      top: top,
-      left: left
+        top: top,
+        left: left
     };
   }
 

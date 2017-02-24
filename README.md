@@ -22,3 +22,5 @@ Clears all selected items.
 |-------------------|------------------------------------------------------------------------|----------|---------|
 | enabled           | Enables or disables the drag select behaviour                          | boolean  | true    |
 | onSelectionChange | Called when the selected items change, receives item keys as argument. | function | noop    |
+| selectedList      | The list of keys of the selected children. Same as the output          | array    | []      |
+|                   | of onSelectionChange.                                                  |          |         |
