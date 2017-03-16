@@ -1,0 +1,89 @@
+/**
+ * Demo styles
+ */
+body {
+  background: #fff;
+  font-family: "HelveticaNeue", Arial;
+  font-size: 14px;
+  padding: 40px 0;
+  margin: 0;
+  color: #555555;
+}
+
+.container {
+  width: 960px;
+  margin: 0 auto;
+}
+
+b {
+  display: inline-block;
+  padding-top: 5px;
+}
+b span {
+  font-weight: normal;
+}
+
+p {
+  margin: 1em 0;
+}
+
+a {
+  color: inherit;
+}
+
+.item {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 0;
+  font-weight: normal;
+  color: black;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 1em 0 0.5em 0;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #ECECEB;
+  color: black;
+}
+
+.header iframe {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+h1 a {
+  display: inline-block;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.info {
+  font-size: 13px;
+}
+
+.footer {
+  padding: 20px 0 0 0;
+  font-size: 13px;
+  text-align: right;
+}
+.footer a {
+  font-weight: bold;
+}
+
+pre {
+  background: #F5F5F5;
+  border-radius: 3px;
+  margin: 0;
+  padding: 20px;
+}
